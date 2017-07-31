@@ -246,6 +246,10 @@ function Exporter(context) {
 		return str;
 	}
 
+	function encode(string) {
+		return string.stringByAddingPercentEncodingWithAllowedCharacters(NSCharacterSet.URLPathAllowedCharacterSet());
+	}
+
 	function generateCSSForLayer(layer) {
 		var css = ".sk-asset.sk-" + cleanString(layer.name()) + " {\n";
 		css += "\twidth: " + Math.round(layer.frame().width()) + "px;\n";
@@ -255,7 +259,7 @@ function Exporter(context) {
 
 		// Set background image for exported layer
 		if (layerMarkedForExport(layer) && !embedSvg) {
-			css += "\tbackground-image: url(\"images/" + layer.name() + "." + imageFormat + "\");\n";
+			css += "\tbackground-image: url(\"images/" + encode(layer.name()) + "." + imageFormat + "\");\n";
 		}
 
 		css += "}\n";
@@ -275,7 +279,7 @@ function Exporter(context) {
 					+ "only screen and (min-device-pixel-ratio: " + scale + ") {\n";
 
 					css += "\t.sk-asset.sk-" + cleanString(layer.name()) + " {\n";
-					css += "\t\tbackground-image: url(\"images/" + layer.name() + appendName + "." + imageFormat + "\");\n";
+					css += "\t\tbackground-image: url(\"images/" + encode(layer.name()) + appendName + "." + imageFormat + "\");\n";
 					css += "\t\tbackground-size: " + Math.round(layer.frame().width()) + "px " + Math.round(layer.frame().height()) + "px;\n";
 					css += "\t}\n";
 
